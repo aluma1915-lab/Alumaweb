@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Aluma | Accesorios de Lujo</title>
   <meta name="description" content="Aluma — accesorios y joyería de autor. Piezas delicadas y atemporales.">
   <style>
@@ -11,28 +11,67 @@
       padding: 0;
       box-sizing: border-box;
     }
-    html, body {
-      width: 100%;
-      height: 100%;
-      overflow: hidden;
-      background-color: #ffffff;
+    body {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      background-color: #faf8f5; /* Tono crema elegante de Aluma */
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      color: #333333;
+      text-align: center;
+      padding: 20px;
     }
-    iframe {
+    .loader-card {
+      background: #ffffff;
+      padding: 40px 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+      max-width: 360px;
       width: 100%;
-      height: 100%;
-      border: none;
-      display: block;
+    }
+    h1 {
+      font-size: 24px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+      color: #1a1a1a;
+    }
+    p {
+      font-size: 14px;
+      color: #777777;
+      margin-bottom: 24px;
+    }
+    .spinner {
+      width: 36px;
+      height: 36px;
+      border: 3px solid #f3f3f3;
+      border-top: 3px solid #d4af37; /* Tono dorado */
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin: 0 auto;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
     }
   </style>
 </head>
 <body>
 
-  <iframe id="appFrame" id="appFrame" sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-top-navigation"></iframe>
+  <div class="loader-card">
+    <h1>ALUMA</h1>
+    <p>Cargando tienda...</p>
+    <div class="spinner"></div>
+  </div>
 
   <script>
-    // Inyectamos la URL desde JavaScript para saltar restricciones de referrer en móviles
-    const scriptUrl = "https://script.google.com/macros/s/AKfycbzKkyzyYX78zbg1gal6WySclAxyjF912goCfTEGAzFw5NJJah-h8yV5LokKgTmK2olq/exec";
-    document.getElementById('appFrame').src = scriptUrl;
+    // URL de ejecución de tu Apps Script
+    const appUrl = "https://script.google.com/macros/s/AKfycbzKkyzyYX78zbg1gal6WySclAxyjF912goCfTEGAzFw5NJJah-h8yV5LokKgTmK2olq/exec";
+
+    // Redirección directa para evitar bloqueos de iFrame/Cookies en celulares
+    window.location.replace(appUrl);
   </script>
 
 </body>
