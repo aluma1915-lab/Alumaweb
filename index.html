@@ -72,12 +72,47 @@
   </div>
 
   <script>
-    const targetUrl = "https://script.google.com/macros/s/AKfycbzKkyzyYX78zbg1gal6WySclAxyjF912goCfTEGAzFw5NJJah-h8yV5LokKgTmK2olq/exec";
+    const targetUrl = "";
     
     // Forzamos la apertura directa como interacción de usuario real
     const btn = document.getElementById('btnLink');
     btn.href = targetUrl;
     btn.target = "_blank"; // Abre en pestaña limpia del navegador predeterminado
+  </script>
+
+</body>
+</html>
+<!-- Tus secciones HTML de la tienda (Novedades, Destacados, Carrito, etc.) -->
+
+  <script>
+    const URL_API = "https://script.google.com/macros/s/AKfycbzKkyzyYX78zbg1gal6WySclAxyjF912goCfTEGAzFw5NJJah-h8yV5LokKgTmK2olq/exec";
+
+    function cargarProductos() {
+      fetch(URL_API)
+        .then(respuesta => respuesta.json())
+        .then(productos => {
+          console.log("Productos cargados:", productos);
+
+          // Ejemplo para pintar los productos en tu contenedor
+          const contenedor = document.getElementById("grid-productos");
+          if (!contenedor) return;
+
+          contenedor.innerHTML = "";
+
+          productos.forEach(prod => {
+            contenedor.innerHTML += `
+              <div class="tarjeta-producto">
+                <img src="${prod.imagen}" alt="${prod.nombre}">
+                <h3>${prod.nombre}</h3>
+                <p class="precio">$${prod.precio}</p>
+              </div>
+            `;
+          });
+        })
+        .catch(error => console.error("Error al cargar la tienda:", error));
+    }
+
+    document.addEventListener("DOMContentLoaded", cargarProductos);
   </script>
 
 </body>
