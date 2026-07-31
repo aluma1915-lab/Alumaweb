@@ -27,7 +27,13 @@
 </head>
 <body>
 
-  <iframe src="https://script.google.com/macros/s/AKfycbzKkyzyYX78zbg1gal6WySclAxyjF912goCfTEGAzFw5NJJah-h8yV5LokKgTmK2olq/exec"></iframe>
+  <iframe id="appFrame" id="appFrame" sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-top-navigation"></iframe>
+
+  <script>
+    // Inyectamos la URL desde JavaScript para saltar restricciones de referrer en móviles
+    const scriptUrl = "https://script.google.com/macros/s/AKfycbzKkyzyYX78zbg1gal6WySclAxyjF912goCfTEGAzFw5NJJah-h8yV5LokKgTmK2olq/exec";
+    document.getElementById('appFrame').src = scriptUrl;
+  </script>
 
 </body>
 </html>
