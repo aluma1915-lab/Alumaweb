@@ -6,113 +6,72 @@
   <title>Aluma | Accesorios de Lujo</title>
   <meta name="description" content="Aluma — accesorios y joyería de autor. Piezas delicadas y atemporales.">
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-    body {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      background-color: #faf8f5;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      color: #333333;
-      text-align: center;
-      padding: 24px;
-    }
-    .card {
-      background: #ffffff;
-      padding: 40px 24px;
-      border-radius: 16px;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.05);
-      max-width: 380px;
-      width: 100%;
-    }
-    h1 {
-      font-size: 26px;
-      letter-spacing: 3px;
-      text-transform: uppercase;
-      margin-bottom: 12px;
-      color: #1a1a1a;
-      font-weight: 600;
-    }
-    p {
-      font-size: 14px;
-      color: #666666;
-      margin-bottom: 28px;
-      line-height: 1.5;
-    }
-    .btn-aluma {
-      display: inline-block;
-      width: 100%;
-      background-color: #1a1a1a;
-      color: #ffffff;
-      text-decoration: none;
-      padding: 16px;
-      border-radius: 8px;
-      font-weight: 500;
-      font-size: 15px;
-      letter-spacing: 1px;
-      transition: background-color 0.2s ease;
-    }
-    .btn-aluma:active {
-      background-color: #d4af37;
-    }
+    /* ESTILOS BÁSICOS DE ALUMA */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background-color: #faf8f5; color: #1a1a1a; }
+    header { background: #ffffff; text-align: center; padding: 20px; border-bottom: 1px solid #eeeeee; }
+    header h1 { letter-spacing: 3px; font-weight: 500; font-size: 24px; }
+    .contenedor { max-width: 1000px; margin: 0 auto; padding: 20px; }
+    .titulo-seccion { text-align: center; font-weight: 400; margin-bottom: 20px; font-size: 20px; letter-spacing: 1px; }
+    
+    /* GRID DE PRODUCTOS */
+    .grid-productos { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 16px; margin-top: 20px; }
+    .tarjeta-producto { background: #ffffff; border-radius: 10px; overflow: hidden; padding: 12px; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
+    .tarjeta-producto img { width: 100%; height: 180px; object-fit: cover; border-radius: 6px; }
+    .tarjeta-producto h3 { font-size: 14px; margin: 10px 0 4px; font-weight: 500; }
+    .tarjeta-producto .precio { font-size: 13px; color: #d4af37; font-weight: 600; }
+    .cargando { text-align: center; color: #888888; padding: 40px; font-size: 14px; }
   </style>
 </head>
 <body>
 
-  <div class="card">
+  <header>
     <h1>ALUMA</h1>
-    <p>Haz clic abajo para ingresar a nuestra colección y tienda virtual.</p>
-    <a id="btnLink" class="btn-aluma" href="#">INGRESAR A LA TIENDA</a>
-  </div>
+  </header>
 
-  <script>
-    const targetUrl = "";
+  <main class="contenedor">
+    <h2 class="titulo-seccion">Nuestra Colección</h2>
     
-    // Forzamos la apertura directa como interacción de usuario real
-    const btn = document.getElementById('btnLink');
-    btn.href = targetUrl;
-    btn.target = "_blank"; // Abre en pestaña limpia del navegador predeterminado
-  </script>
-
-</body>
-</html>
-<!-- Tus secciones HTML de la tienda (Novedades, Destacados, Carrito, etc.) -->
+    <!-- Aquí se insertarán los productos automáticamente -->
+    <div class="grid-productos" id="grid-productos">
+      <div class="cargando">Cargando productos de Aluma...</div>
+    </div>
+  </main>
 
   <script>
+    // URL de tu API de Apps Script que devuelve el JSON
     const URL_API = "https://script.google.com/macros/s/AKfycbzKkyzyYX78zbg1gal6WySclAxyjF912goCfTEGAzFw5NJJah-h8yV5LokKgTmK2olq/exec";
 
-    function cargarProductos() {
+    function cargarTienda() {
       fetch(URL_API)
-        .then(respuesta => respuesta.json())
+        .then(response => response.json())
         .then(productos => {
-          console.log("Productos cargados:", productos);
-
-          // Ejemplo para pintar los productos en tu contenedor
           const contenedor = document.getElementById("grid-productos");
-          if (!contenedor) return;
+          contenedor.innerHTML = ""; // Limpiar el texto de cargando
 
-          contenedor.innerHTML = "";
+          if (productos.length === 0) {
+            contenedor.innerHTML = "<p style='grid-column: 1/-1; text-align: center;'>No hay productos disponibles por ahora.</p>";
+            return;
+          }
 
+          // Dibujar los productos recibidos desde Google Sheets
           productos.forEach(prod => {
             contenedor.innerHTML += `
               <div class="tarjeta-producto">
-                <img src="${prod.imagen}" alt="${prod.nombre}">
+                <img src="${prod.imagen || 'https://via.placeholder.com/150'}" alt="${prod.nombre}">
                 <h3>${prod.nombre}</h3>
                 <p class="precio">$${prod.precio}</p>
               </div>
             `;
           });
         })
-        .catch(error => console.error("Error al cargar la tienda:", error));
+        .catch(error => {
+          console.error("Error al cargar la tienda:", error);
+          document.getElementById("grid-productos").innerHTML = "<p style='grid-column: 1/-1; text-align: center; color: red;'>Hubo un error al cargar la tienda. Intenta nuevamente.</p>";
+        });
     }
 
-    document.addEventListener("DOMContentLoaded", cargarProductos);
+    document.addEventListener("DOMContentLoaded", cargarTienda);
   </script>
 
 </body>
