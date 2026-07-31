@@ -3,76 +3,530 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Aluma | Accesorios de Lujo</title>
-  <meta name="description" content="Aluma — accesorios y joyería de autor. Piezas delicadas y atemporales.">
+  <title>Aluma | Joyería y Accesorios</title>
+  <meta name="description" content="Aluma — Piezas atemporales en plata, gold-filled y acero rodinado.">
+  
+  <!-- Tipografía elegante -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+
   <style>
-    /* ESTILOS BÁSICOS DE ALUMA */
+    /* =========================================================
+       VARIABLES Y ESTILOS GLOBALES - ALUMA BRANDING
+       ========================================================= */
+    :root {
+      --bg-principal: #faf8f5;
+      --bg-tarjeta: #ffffff;
+      --texto-primario: #2c2c2c;
+      --texto-secundario: #666666;
+      --dorado: #d4af37;
+      --dorado-hover: #b89528;
+      --rosa-suave: #f7ebe8;
+      --borde: #eae6e1;
+      --sombre: rgba(0, 0, 0, 0.06);
+      --fuente-titulo: 'Cormorant Garamond', serif;
+      --fuente-cuerpo: 'Montserrat', sans-serif;
+    }
+
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background-color: #faf8f5; color: #1a1a1a; }
-    header { background: #ffffff; text-align: center; padding: 20px; border-bottom: 1px solid #eeeeee; }
-    header h1 { letter-spacing: 3px; font-weight: 500; font-size: 24px; }
-    .contenedor { max-width: 1000px; margin: 0 auto; padding: 20px; }
-    .titulo-seccion { text-align: center; font-weight: 400; margin-bottom: 20px; font-size: 20px; letter-spacing: 1px; }
     
-    /* GRID DE PRODUCTOS */
-    .grid-productos { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 16px; margin-top: 20px; }
-    .tarjeta-producto { background: #ffffff; border-radius: 10px; overflow: hidden; padding: 12px; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
-    .tarjeta-producto img { width: 100%; height: 180px; object-fit: cover; border-radius: 6px; }
-    .tarjeta-producto h3 { font-size: 14px; margin: 10px 0 4px; font-weight: 500; }
-    .tarjeta-producto .precio { font-size: 13px; color: #d4af37; font-weight: 600; }
-    .cargando { text-align: center; color: #888888; padding: 40px; font-size: 14px; }
+    body {
+      font-family: var(--fuente-cuerpo);
+      background-color: var(--bg-principal);
+      color: var(--texto-primario);
+      line-height: 1.5;
+      padding-bottom: 80px;
+    }
+
+    /* =========================================================
+       HEADER & NAVEGACIÓN
+       ========================================================= */
+    header {
+      background: var(--bg-tarjeta);
+      border-bottom: 1px solid var(--borde);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 10px var(--sombre);
+    }
+
+    .header-contenedor {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 15px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-family: var(--fuente-titulo);
+      font-size: 32px;
+      font-weight: 600;
+      letter-spacing: 4px;
+      color: var(--texto-primario);
+      text-decoration: none;
+      text-transform: uppercase;
+    }
+
+    .header-acciones {
+      display: flex;
+      gap: 18px;
+      align-items: center;
+    }
+
+    .btn-icono {
+      background: none;
+      border: none;
+      cursor: pointer;
+      position: relative;
+      font-size: 20px;
+      color: var(--texto-primario);
+    }
+
+    .badge {
+      position: absolute;
+      top: -6px;
+      right: -8px;
+      background: var(--dorado);
+      color: white;
+      font-size: 10px;
+      font-weight: 600;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* =========================================================
+       HERO BANNER & SECCIONES
+       ========================================================= */
+    .hero {
+      text-align: center;
+      padding: 50px 20px 30px;
+      background: linear-gradient(180deg, var(--rosa-suave) 0%, var(--bg-principal) 100%);
+    }
+
+    .hero h2 {
+      font-family: var(--fuente-titulo);
+      font-size: 38px;
+      font-weight: 400;
+      letter-spacing: 2px;
+      margin-bottom: 8px;
+    }
+
+    .hero p {
+      color: var(--texto-secundario);
+      font-size: 14px;
+      letter-spacing: 1px;
+    }
+
+    .contenedor {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 30px 20px;
+    }
+
+    /* =========================================================
+       GRID Y TARJETAS DE PRODUCTO
+       ========================================================= */
+    .grid-productos {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 24px;
+    }
+
+    .tarjeta-producto {
+      background: var(--bg-tarjeta);
+      border-radius: 12px;
+      border: 1px solid var(--borde);
+      overflow: hidden;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+
+    .tarjeta-producto:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 20px var(--sombre);
+    }
+
+    .imagen-contenedor {
+      width: 100%;
+      height: 260px;
+      overflow: hidden;
+      position: relative;
+      background: #f0f0f0;
+    }
+
+    .tarjeta-producto img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+
+    .tarjeta-producto:hover img {
+      transform: scale(1.05);
+    }
+
+    .info-producto {
+      padding: 16px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+    }
+
+    .info-producto h3 {
+      font-size: 15px;
+      font-weight: 500;
+      margin-bottom: 6px;
+      color: var(--texto-primario);
+    }
+
+    .info-producto .precio {
+      font-size: 16px;
+      color: var(--dorado);
+      font-weight: 600;
+      margin-bottom: 14px;
+    }
+
+    .btn-agregar {
+      margin-top: auto;
+      background: var(--texto-primario);
+      color: white;
+      border: none;
+      padding: 10px 16px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 1px;
+      cursor: pointer;
+      text-transform: uppercase;
+      transition: background 0.2s;
+    }
+
+    .btn-agregar:hover {
+      background: var(--dorado);
+    }
+
+    /* =========================================================
+       PANEL LATERAL DEL CARRITO
+       ========================================================= */
+    .overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.4);
+      display: none;
+      z-index: 200;
+    }
+
+    .panel-carrito {
+      position: fixed;
+      top: 0; right: -400px;
+      width: 100%;
+      max-width: 380px;
+      height: 100%;
+      background: white;
+      z-index: 201;
+      box-shadow: -4px 0 15px rgba(0,0,0,0.1);
+      transition: right 0.3s ease;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .panel-carrito.activo, .overlay.activo {
+      display: block;
+    }
+
+    .panel-carrito.activo {
+      right: 0;
+    }
+
+    .carrito-header {
+      padding: 20px;
+      border-bottom: 1px solid var(--borde);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .carrito-header h3 {
+      font-family: var(--fuente-titulo);
+      font-size: 22px;
+    }
+
+    .carrito-contenido {
+      padding: 20px;
+      flex-grow: 1;
+      overflow-y: auto;
+    }
+
+    .item-carrito {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 16px;
+      border-bottom: 1px solid var(--borde);
+      padding-bottom: 12px;
+      align-items: center;
+    }
+
+    .item-carrito img {
+      width: 60px;
+      height: 60px;
+      object-fit: cover;
+      border-radius: 6px;
+    }
+
+    .item-detalles { flex-grow: 1; }
+    .item-detalles h4 { font-size: 13px; font-weight: 500; }
+    .item-detalles p { font-size: 12px; color: var(--dorado); font-weight: 600; }
+
+    .carrito-footer {
+      padding: 20px;
+      border-top: 1px solid var(--borde);
+    }
+
+    .total-linea {
+      display: flex;
+      justify-content: space-between;
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 15px;
+    }
+
+    .btn-checkout {
+      width: 100%;
+      background: #25d366; /* WhatsApp Green */
+      color: white;
+      border: none;
+      padding: 12px;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .btn-checkout:hover { background: #1eb956; }
+
+    .cargando {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 60px 20px;
+      color: var(--texto-secundario);
+    }
   </style>
 </head>
 <body>
 
+  <!-- HEADER -->
   <header>
-    <h1>ALUMA</h1>
+    <div class="header-contenedor">
+      <a href="#" class="logo">Aluma</a>
+      <div class="header-acciones">
+        <button class="btn-icono" onclick="abrirCarrito()" aria-label="Carrito">
+          🛍️
+          <span class="badge" id="badge-carrito">0</span>
+        </button>
+      </div>
+    </div>
   </header>
 
+  <!-- HERO -->
+  <section class="hero">
+    <h2>Elegancia en Cada Detalle</h2>
+    <p>Joyería atemporal • Plata & Gold-Filled</p>
+  </section>
+
+  <!-- CONTENIDO PRINCIPAL -->
   <main class="contenedor">
-    <h2 class="titulo-seccion">Nuestra Colección</h2>
-    
-    <!-- Aquí se insertarán los productos automáticamente -->
     <div class="grid-productos" id="grid-productos">
-      <div class="cargando">Cargando productos de Aluma...</div>
+      <div class="cargando">Cargando colección de Aluma...</div>
     </div>
   </main>
 
-  <script>
-    // URL de tu API de Apps Script que devuelve el JSON
-    const URL_API = "https://script.google.com/macros/s/AKfycbzKkyzyYX78zbg1gal6WySclAxyjF912goCfTEGAzFw5NJJah-h8yV5LokKgTmK2olq/exec";
+  <!-- OVERLAY Y PANEL DEL CARRITO -->
+  <div class="overlay" id="overlay" onclick="cerrarCarrito()"></div>
+  
+  <div class="panel-carrito" id="panel-carrito">
+    <div class="carrito-header">
+      <h3>Tu Pedido</h3>
+      <button class="btn-icono" onclick="cerrarCarrito()">✕</button>
+    </div>
+    
+    <div class="carrito-contenido" id="carrito-contenido">
+      <!-- Los productos añadidos se renderizan aquí -->
+    </div>
 
+    <div class="carrito-footer">
+      <div class="total-linea">
+        <span>Total:</span>
+        <span id="carrito-total">$0</span>
+      </div>
+      <button class="btn-checkout" onclick="enviarPedidoWhatsApp()">
+        Finalizar por WhatsApp 📲
+      </button>
+    </div>
+  </div>
+
+  <script>
+    // URL de tu Web App en Apps Script
+    const URL_API = "https://script.google.com/macros/s/AKfycbzKkyzyYX78zbg1gal6WySclAxyjF912goCfTEGAzFw5NJJah-h8yV5LokKgTmK2olq/exec";
+    const NUMERO_WHATSAPP = "573000000000"; // Reemplaza por tu número de Aluma (con prefijo 57)
+
+    let productos = [];
+    let carrito = JSON.parse(localStorage.getItem('aluma_carrito')) || [];
+
+    // Formatear precio a pesos colombianos
+    function formatearPrecio(valor) {
+      return new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', maximumFractionDigits: 0 }).format(valor);
+    }
+
+    // Cargar datos vía Fetch API
     function cargarTienda() {
       fetch(URL_API)
-        .then(response => response.json())
-        .then(productos => {
-          const contenedor = document.getElementById("grid-productos");
-          contenedor.innerHTML = ""; // Limpiar el texto de cargando
-
-          if (productos.length === 0) {
-            contenedor.innerHTML = "<p style='grid-column: 1/-1; text-align: center;'>No hay productos disponibles por ahora.</p>";
-            return;
-          }
-
-          // Dibujar los productos recibidos desde Google Sheets
-          productos.forEach(prod => {
-            contenedor.innerHTML += `
-              <div class="tarjeta-producto">
-                <img src="${prod.imagen || 'https://via.placeholder.com/150'}" alt="${prod.nombre}">
-                <h3>${prod.nombre}</h3>
-                <p class="precio">$${prod.precio}</p>
-              </div>
-            `;
-          });
+        .then(res => res.json())
+        .then(data => {
+          productos = data;
+          renderProductos();
+          actualizarCarrito();
         })
-        .catch(error => {
-          console.error("Error al cargar la tienda:", error);
-          document.getElementById("grid-productos").innerHTML = "<p style='grid-column: 1/-1; text-align: center; color: red;'>Hubo un error al cargar la tienda. Intenta nuevamente.</p>";
+        .catch(err => {
+          console.error("Error al cargar la tienda:", err);
+          document.getElementById("grid-productos").innerHTML = `
+            <div class="cargando">No se pudieron cargar los productos. Por favor intenta más tarde.</div>
+          `;
         });
+    }
+
+    // Renderizar tarjetas de productos
+    function renderProductos() {
+      const contenedor = document.getElementById("grid-productos");
+      if (!productos || productos.length === 0) {
+        contenedor.innerHTML = `<div class="cargando">No hay piezas disponibles en este momento.</div>`;
+        return;
+      }
+
+      contenedor.innerHTML = productos.map(prod => `
+        <div class="tarjeta-producto">
+          <div class="imagen-contenedor">
+            <img src="${prod.imagen || 'https://via.placeholder.com/300'}" alt="${prod.nombre}" loading="lazy">
+          </div>
+          <div class="info-producto">
+            <h3>${prod.nombre}</h3>
+            <p class="precio">${formatearPrecio(prod.precio)}</p>
+            <button class="btn-agregar" onclick="agregarAlCarrito('${prod.id || prod.nombre}')">
+              Añadir a la bolsa
+            </button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // Lógica del Carrito de Compras
+    function agregarAlCarrito(id) {
+      const prod = productos.find(p => (p.id || p.nombre) === id);
+      if (!prod) return;
+
+      const existe = carrito.find(item => (item.id || item.nombre) === id);
+      if (existe) {
+        existe.cantidad += 1;
+      } else {
+        carrito.push({ ...prod, cantidad: 1 });
+      }
+
+      guardarYActualizar();
+      abrirCarrito();
+    }
+
+    function cambiarCantidad(id, delta) {
+      const idx = carrito.findIndex(item => (item.id || item.nombre) === id);
+      if (idx > -1) {
+        carrito[idx].cantidad += delta;
+        if (carrito[idx].cantidad <= 0) carrito.splice(idx, 1);
+      }
+      guardarYActualizar();
+    }
+
+    function guardarYActualizar() {
+      localStorage.setItem('aluma_carrito', JSON.stringify(carrito));
+      actualizarCarrito();
+    }
+
+    function actualizarCarrito() {
+      const cont = document.getElementById("carrito-contenido");
+      const badge = document.getElementById("badge-carrito");
+      const totalEl = document.getElementById("carrito-total");
+
+      const totalItems = carrito.reduce((acc, item) => acc + item.cantidad, 0);
+      badge.textContent = totalItems;
+
+      if (carrito.length === 0) {
+        cont.innerHTML = `<p style="text-align:center; color:#888; padding: 40px 0;">Tu bolsa está vacía.</p>`;
+        totalEl.textContent = formatearPrecio(0);
+        return;
+      }
+
+      let total = 0;
+      cont.innerHTML = carrito.map(item => {
+        const subtotal = item.precio * item.cantidad;
+        total += subtotal;
+        return `
+          <div class="item-carrito">
+            <img src="${item.imagen || 'https://via.placeholder.com/60'}" alt="${item.nombre}">
+            <div class="item-detalles">
+              <h4>${item.nombre}</h4>
+              <p>${formatearPrecio(item.precio)} x ${item.cantidad}</p>
+            </div>
+            <div>
+              <button class="btn-icono" onclick="cambiarCantidad('${item.id || item.nombre}', 1)">+</button>
+              <button class="btn-icono" onclick="cambiarCantidad('${item.id || item.nombre}', -1)">-</button>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      totalEl.textContent = formatearPrecio(total);
+    }
+
+    function abrirCarrito() {
+      document.getElementById("overlay").classList.add("activo");
+      document.getElementById("panel-carrito").classList.add("activo");
+    }
+
+    function cerrarCarrito() {
+      document.getElementById("overlay").classList.remove("activo");
+      document.getElementById("panel-carrito").classList.remove("activo");
+    }
+
+    // Checkout directo a WhatsApp
+    function enviarPedidoWhatsApp() {
+      if (carrito.length === 0) return;
+
+      let mensaje = " *NUEVO PEDIDO - ALUMA* \n\n";
+      let total = 0;
+
+      carrito.forEach(item => {
+        const sub = item.precio * item.cantidad;
+        total += sub;
+        mensaje += `• ${item.cantidad}x ${item.nombre} - ${formatearPrecio(sub)}\n`;
+      });
+
+      mensaje += `\n*Total a pagar:* ${formatearPrecio(total)}\n\n`;
+      mensaje += "¡Hola! Quisiera coordinar el envío de mi pedido.";
+
+      const url = `https://wa.me/${NUMERO_WHATSAPP}?text=${encodeURIComponent(mensaje)}`;
+      window.open(url, '_blank');
     }
 
     document.addEventListener("DOMContentLoaded", cargarTienda);
   </script>
-
 </body>
 </html>
